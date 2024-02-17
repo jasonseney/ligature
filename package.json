@@ -1,0 +1,39 @@
+{
+  "name": "@tumblr/ligature",
+  "version": "1.23.6",
+  "description": "A contextual editor.",
+  "main": "src/main.js",
+  "scripts": {
+    "watch": "mkdir -p dist; npm run build-styles && watchify src/main.js --s Ligature -o dist/ligature.js -v & node-sass --watch --output dist styles/",
+    "build": "npm run build-scripts && npm run build-styles",
+    "build-scripts": "mkdir -p dist; browserify src/main.js --s Ligature -o dist/ligature.js",
+    "build-styles": "mkdir -p dist; node-sass styles/editor.scss dist/editor.css",
+    "docs": "docker --multi_line_only --ignore_hidden --exclude doc,node_modules,lib,dist,*.html,*.sh --output_dir .doc && (rm -rf doc; mv .doc doc) || rm .doc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.tumblr.net/Tumblr/ligature/"
+  },
+  "dependencies": {
+    "jquery": "2.2.4",
+    "lodash": "3.10.1",
+    "velocity-animate": "1.4.3"
+  },
+  "devDependencies": {
+    "browserify": "13.0.1",
+    "docker": "1.0.0",
+    "node-sass": "3.4.2",
+    "watchify": "3.9.0"
+  },
+  "keywords": [
+    "text",
+    "editor",
+    "editing",
+    "wysiwyg"
+  ],
+  "author": "tumblr",
+  "license": "ISC",
+  "publishConfig": {
+    "registry": "https://npm.tumblr.net"
+  }
+}

@@ -1,0 +1,507 @@
+/* Resets */
+[contenteditable]:focus { outline: 0 solid transparent; }
+
+/*
+## Base editor styles
+Sets up the default typographical style of the editor
+*/
+.editor-wrapper {
+    border-radius: 2px;
+    margin-bottom: 30px;
+}
+.editor-slot {
+    background: #fff;
+    position: relative;
+}
+/*
+## Placeholder
+
+We want to try and match the editor styles for this implementation.
+
+The `z-index` here is _very_ important!
+*/
+.editor-placeholder {
+    position: absolute;
+    z-index: 1;
+    border: 1px solid transparent;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    width: 100%;
+    top: 0;
+    left: 0;
+    padding: 20px;
+    font-family: 'Helvetica Neue';
+    font-size: 18px;
+    line-height: 23px;
+    color: #ccc;
+}
+.editor-rich ~ .editor-placeholder {
+    min-height: 220px;
+}
+/*
+## Internal Content Styles
+Some overrides for how content should look _inside_ the editor.
+*/
+.editor {
+    z-index: 2;
+    position: relative;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    width: 100%;
+    min-height: 240px;
+    padding: 20px;
+    border: 1px solid rgba(0, 0, 0, .07);
+    border-radius: 2px;
+    background: transparent;
+    color: #444;
+    font-family: 'Helvetica Neue';
+    font-size: 18px;
+    line-height: 23px;
+    &:focus {
+        border: 1px solid rgba(255, 255, 255, 1);
+        box-shadow: 0 0 20px 4px rgba(0, 0, 0, .1);
+    }
+    h2 {
+        font-weight: normal;
+        font-size: 1.5em;
+        margin: 0;
+        padding: 0 0 20px;
+    }
+    p {
+        margin: 0;
+        padding: 0 0 20px;
+    }
+    pre {
+        margin: 0 0 20px;
+        padding: 10px;
+        background: #eee;
+    }
+    p pre {
+        margin: 0;
+    }
+    blockquote {
+        font-family: Georgia, serif;
+        margin: 0 0 20px;
+        padding-left: 16px;
+        border-left: 4px solid #eee;
+        > p:last-child {
+            padding: 0;
+        }
+    }
+    ul, ol {
+        margin: 0;
+        padding: 0 0 20px;
+    }
+    ul ul, ol ol,
+    ol ul, ul ol {
+        margin-left: 20px;
+        padding: 0;
+    }
+    li {
+        margin-left: 40px;
+    }
+    a {
+        color: rgb(0, 0, 0);
+        text-decoration: none;
+        /**
+         * Fake underline using gradient background.
+         * Need to do this to avoid browser adding <u> elements when editing <a> text.
+         **/
+        background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 1) 50%);
+        background-repeat: repeat-x;
+        background-size: 1px 2px;
+        background-position: 0 0.99em; // 1em would make sense, right? Nope...
+    }
+    iframe {
+        border: none;
+    }
+    hr {
+        margin: 0px auto;
+        position: relative;
+        height: 0;
+        border: none;
+        border-top: 1px solid #eee;
+        width: 75%;
+    }
+    hr.read-more {
+        border-top: none;
+        border-bottom: 1px dashed #eee;
+        width: 100%;
+        height: 23px + 5px;
+        &:after {
+            content: attr(data-label);
+        }
+    }
+    .media-holder {
+        margin: 0 0 20px;
+        position: relative;
+        overflow: visible;
+        -webkit-transition: opacity .15s ease-in;
+           -moz-transition: opacity .15s ease-in;
+            -ms-transition: opacity .15s ease-in;
+                transition: opacity .15s ease-in;
+
+        img {
+            pointer-events: none;
+            max-width: 100%;
+        }
+        .media-killer, .media-mover {
+            position: absolute;
+            top: -12px;
+            right: -12px;
+            width: 26px;
+            height: 26px;
+            line-height: 24px;
+            font-size: 20px;
+            border-radius: 2px;
+            background: rgba(0, 0, 0, .5);
+            color: rgba(255, 255, 255, .90);
+            text-align: center;
+            cursor: pointer;
+            display: none;
+            &:hover {
+                background: rgba(0, 0, 0, .7);
+            }
+        }
+        .media-mover {
+            right: 26px;
+            font-size: 16px;
+            line-height: 26px;
+            cursor: grab;
+            cursor: -moz-grab;
+            cursor: -webkit-grab;
+        }
+        &.show-controls .media-killer {
+            display: block;
+        }
+        &.show-controls .media-mover {
+            display: block;
+        }
+        &.media-holder-draggable {
+            cursor: grab;
+            cursor: -moz-grab;
+            cursor: -webkit-grab;
+        }
+        &.dragging {
+            opacity: 0.5;
+            cursor: grabbing;
+            cursor: -moz-grabbing;
+            cursor: -webkit-grabbing;
+        }
+    }
+    .media-holder-hr {
+        &:before,
+        &:after {
+            content: '';
+            display: block;
+            height: 10px;
+            pointer-events: none;
+        }
+        &:before {
+            margin-top: -10px;
+        }
+        &:after {
+            margin-bottom: -10px;
+        }
+    }
+    .drag-over {
+        background: rgb(82, 158, 204);
+    }
+
+    .over-top::before,
+    .over-bottom::after {
+        display: block;
+        width: 500px;
+        height: 2px;
+        background: rgb(82, 158, 204);
+        content: '';
+        margin: 0;
+        position: absolute;
+    }
+    .over-top::before {
+        margin-top: -7px;
+    }
+    .over-bottom::after {
+        margin-top: 12px;
+    }
+
+    //Plain Text Editor
+    &.editor-plain {
+        min-height: 100px;
+        p {
+            padding: 0;
+        }
+    }
+}
+
+/*
+## Inline Controls
+*/
+.inline-controls {
+    margin-left: 5px;
+    z-index: 3;
+    position: absolute;
+    display: none;
+    .opener {
+        width: 24px;
+        height: 24px;
+        border: 1px solid rgba(0,0,0,.5);
+        border-radius: 24px;
+        color: rgba(0,0,0,.5);
+        cursor: pointer;
+        position: relative;
+        &:hover {
+            border: 1px solid rgba(0,0,0,1.0);
+            color: rgba(0,0,0,1.0);
+        }
+        &:before {
+            position: absolute;
+            font-family: FontAwesome;
+            display: inline-block;
+            font-size: 15px;
+            top: 5px;
+            left: 6px;
+            -webkit-font-smoothing: antialiased;
+            font-smoothing: antialiased;
+            content: '\f067';
+        }
+        &.closed {
+        }
+        &.open:before {
+            -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
+            transform: rotate(45deg);
+        }
+    }
+    .tray {
+        width: 120px;
+        height: 24px;
+        margin-left: 10px;
+        border-radius: 3px;
+        position: relative;
+    }
+    .opener, .tray {
+        float: left;
+    }
+}
+
+/*
+## Control Bar
+Styles for our static control bars.
+*/
+.control-bar {
+    position: absolute;
+    right: 20px;
+    bottom: 10px;
+    background: rgba(255,255,255,0.7);
+    -webkit-transition: opacity .25s ease-in;
+       -moz-transition: opacity .25s ease-in;
+        -ms-transition: opacity .25s ease-in;
+            transition: opacity .25s ease-in;
+}
+.control:not(.bubbles) {
+    display: inline-block;
+    font-size: 20px;
+    line-height: 24px;
+    color: #9da6b0;
+    margin-left: 10px;
+    cursor: pointer;
+}
+.control:hover {
+    cursor: pointer;
+    color: #59636e
+}
+.control input[type='file'] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    opacity: 0;
+    width: 400%;
+    height: 100%;
+    cursor: pointer;
+}
+.control {
+    font-family: FontAwesome;
+    position: relative;
+    width: 24px;
+    height: 24px;
+    overflow: hidden;
+}
+.control-bar.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+/*
+## Bubbles!
+Styles for our contextual control bars.
+*/
+.bubbles {
+    width: 272px;
+    min-width: 272px;
+    height: 32px;
+    z-index: 3;
+    position: absolute;
+}
+.bubbles.wide {
+    width: 600px;
+}
+.bubbles > div {
+    box-sizing: border-box;
+    display: inline-block;
+    border-radius: 16px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    color: #fff;
+    background-color: rgba(30,30,30,1);
+    border: 1px solid rgba(30,30,30,1);
+    cursor: pointer;
+    margin: 0 1px;
+}
+.bubbles > div span { display: inline-block; }
+.bubbles > div.active {
+    color: rgba(30,30,30,1);
+    background-color: rgba(255,255,255,1);
+    border: 1px solid rgba(30,30,30,1);
+}
+.bubbles > div.shim {
+    position: relative;
+}
+.link-bubbles {
+    position: absolute;
+    height: 30px;
+    z-index: 3;
+    width: 175px;
+    min-width: 175px;
+}
+.link-bubbles .options > div,
+.link-bubbles .url
+{
+    box-sizing: border-box;
+    display: inline-block;
+    border-radius: 15px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    color: #FEFEFE;
+    background-color: rgba(30,30,30,1);
+    border: 1px solid rgba(30,30,30,1);
+    margin: 0 1px;
+    padding: 0 10px;
+    position: relative;
+    font-size: 13px;
+}
+.link-bubbles .options > div {
+    text-transform: capitalize;
+    cursor: pointer;
+}
+.link-bubbles .url {
+    width: 100%;
+}
+.link-bubbles .url .done {
+    position: absolute;
+    right: 0;
+    top: 0px;
+    line-height: 30px;
+    padding: 0 10px 0 2px;
+    font-family: arial;
+    cursor: pointer;
+    display: none;
+}
+.link-bubbles .url input[type='text'] {
+    font-size: 13px;
+    border: none;
+    color: rgba(255,255,255,0.85);
+    background:transparent;
+    width: 100%;
+    outline: 0;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+.link-bubbles .url.modified .done {
+    display: block;
+}
+.link-bubbles .url.modified input[type='text'] {
+    padding-right: 40px;
+}
+.link-bubbles .url input[type='text']::-webkit-input-placeholder {
+    color: rgb(120,120,120);
+}
+
+/*
+## Themes
+*/
+.bubbles > div:before {
+    font-family: FontAwesome;
+    display: inline-block;
+    font-size: 14px;
+    padding: 0 0 0 3px;
+    -webkit-font-smoothing: antialiased;
+    font-smoothing: antialiased;
+}
+.bubbles > .bold:before { content: '\f032'; }
+.bubbles > .italic:before { content: '\f033'; }
+.bubbles > .headline:before { content: '\f0fd'; }
+.bubbles > .link:before { content: '\f0c1'; }
+.bubbles > .strikethrough:before { content: '\f0cc'; }
+.bubbles > .unordered-list:before { content: '\f0ca'; }
+.bubbles > .ordered-list:before { content: '\f0cb'; }
+.bubbles > .quote:before { content: '\f10e'; }
+.bubbles > .preformatted:before { content: '\f121'; }
+
+.control-bar {
+    font-family: FontAwesome;
+    -webkit-font-smoothing: antialiased;
+    font-smoothing: antialiased;
+    z-index: 3;
+}
+.control.add-image:before {
+    content: "\f030";
+}
+.control.add-hr:before {
+    content: "\f068";
+}
+.control.add-read-more:before {
+    content: "\f141";
+}
+.control-bar .static-controls:before {
+    content: "\f031";
+}
+
+/*
+## Animation
+*/
+.bubbles.hide {
+    display: none;
+}
+
+// Fake
+p.fake {
+    height: 10px;
+    padding: 0;
+    margin-top: -10px;
+    // Avoid animation when removing this class so the inline toolbar isn't wack.
+    -webkit-transition: none;
+    -moz-transition: none;
+    -ms-transition: none;
+    -o-transition: none;
+    transition: none;
+}
+p {
+    -webkit-transition: padding 150ms ease-in;
+    -moz-transition: padding 150ms ease-in;
+    -ms-transition: padding 150ms ease-in;
+    -o-transition: padding 150ms ease-in;
+    transition: padding 150ms ease-in;
+}
+
+// Due to a nice little Chrome bug, these are required for proper toggling
+sub {
+    vertical-align: sub;
+}
+
+sup {
+    vertical-align: super;
+}

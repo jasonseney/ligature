@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+  <head>
+		<meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Ligature</title>
+        <link rel='stylesheet' href='lib/normalize.min.css'>
+        <link rel='stylesheet' href='lib/font-awesome-4.2.0/css/font-awesome.min.css'>
+        <link rel='stylesheet' href='dist/editor.css'>
+        <style type='text/css'>
+            #content {
+                background: rgba(0,0,0,.05);
+            }
+            .column {
+                width: 540px;
+                margin: 40px auto;
+                padding: 20px 40px;
+                border: 1px solid rgba(0,0,0,.06);
+                border-radius: 2px;
+            }
+            .header {
+                color: rgba(0,0,0,.85);
+                font-size: 1.5em;
+            }
+            .title {
+                font-size: 1.5em;
+                font-family: Garamond, serif;
+            }
+            .desc {
+                font-weight: normal;
+                font-family: Helvetica Neue, sans-serif;
+            }
+            #example a { color: rgb(80,80,80); }
+            blockquote {
+                padding-left: 1em;
+                border-left: .4em solid rgba(0,0,0,.06);
+            }
+            button {
+                border-radius: 2px;
+                border: 1px solid rgba(0,0,0,.15);
+                margin: 0 10px 0 0;
+                padding: .5em 1em;
+                font-size: .8em;
+                background:transparent;
+            }
+            iframe {
+            }
+            figure {
+                margin: 0 0 1em 0;
+            }
+        </style>
+</head>
+<body>
+
+    <div id="container">
+        <div id="content" class="column">
+
+            <h1 class="header"><span class='title'>Ligature </span><span class="desc">&mdash; A Contextual Editor</span></h1>
+
+            <div style="position: relative;">
+                <div id="demo-editor-plain" class="editor-plain editor" contenteditable="true"></div>
+            </div>
+
+            <div style="position: relative;">
+                <div id="demo-editor-rich" class="editor-rich editor" contenteditable="true"></div>
+            </div>
+
+            <button id='normal'>Copy Example</button>&nbsp;<button id='flat'>Copy and Flatten</button>
+
+        </div>
+        <div id="example" class="column">
+
+            <h2>Example Content</h2>
+
+            <p>Outstanding photographers&nbsp;<a href="http://swopes.vsco.co/" target="_blank">Swopes</a>,&nbsp;<a href="http://mrevidence.vsco.co/" target="_blank">Mr. Evidence</a>,&nbsp;<a href="http://13thwitness.vsco.co/" target="_blank">13thWitness</a>,&nbsp;<a href="http://trashhand.vsco.co/" target="_blank">trashhand</a>, and&nbsp;<a href="http://vanstyles.vsco.co/" target="_blank">Van Styles</a>&nbsp;have created a dynamic collection of images that encompass wild streets and workspaces, pioneers and poets, fighters and fools, and shadow and light. <i>Now it is your turn.</i></p>
+
+            <p>We are proud to announce <b>HYPEBEAST x VSCO</b>, a collaboration between two brands committed to pushing things forward.</p>
+            <hr />
+
+            <p>Download the free HYPEBEAST X VSCO Preset Pack in the&nbsp;<a href="http://vsco.co/vscocam" target="_self">VSCO Cam Store</a>, upload your images to&nbsp;<a href="http://grid.vsco.co/" target="_self">VSCO Grid</a>&nbsp;with the hashtag #HYPEBEAST, and view&nbsp;<a href="http://thisishypebeast.vsco.co/" target="_blank">thisishypebeast.vsco.co</a>, an exclusive, curated collection showcasing the lives of HYPEBEAST readers across the globe.</p>
+
+            <blockquote>
+                <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Curabitur blandit tempus porttitor.</p>
+                <blockquote>
+                    <p><img src="lib/200.jpg" alt="Tiny Image"/></p>
+                    <p>Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh</p>
+                    <p>We’ve created a Limited Edition HYPEBEAST x VSCO Preset Pack available for FREE. Bold and modern, the Presets are available to download for a limited time in the VSCO Cam In-App Store.</p>
+                </blockquote>
+
+            </blockquote>
+
+            <p>HYPEBEAST is a worldwide, forward-thinking, and influential source for lifestyle and fashion editorial.</p>
+
+            <ul>
+                <li>trashhand / trashhand.vsco.co</li>
+                <li>Van Styles / vanstyles.vsco.co</li>
+                <li>Swopes / swopes.vsco.co</li>
+                <li>13thWitness / 13thwitness.vsco.co</li>
+            </ul>
+
+            <p>We admire HYPEBEAST’s unwavering dedication to creative culture and the artists, designers, fashionistas, and hip-hop heads who embody it.</p>
+
+            <blockquote>
+                <ol>
+                    <li>trashhand / trashhand.vsco.co</li>
+                    <li>Van Styles / vanstyles.vsco.co</li>
+                    <ul>
+                        <li>Van Styles / vanstyles.vsco.co</li>
+                        <li>Swopes / swopes.vsco.co</li>
+                    </ul>
+                    <li>Swopes / swopes.vsco.co</li>
+                    <li>13thWitness / 13thwitness.vsco.co</li>
+                </ol>
+            </blockquote>
+
+            <h2>Some code:</h2>
+
+            <pre>// Upload input
+var fileUploader = $('&lt;input /&gt;', {
+    'type': 'file',
+    'accept': 'image/*'
+});</pre>
+
+            <hr />
+
+            <img src="lib/500.jpg" alt="Fancy Image"/>
+
+            <p>An <code>&lt;iframe&gt;</code> element:</p>
+
+            <figure>
+                <iframe src="http://player.vimeo.com/video/108838765" width="500" height="281" frameborder="0"></iframe>
+            </figure>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="dist/ligature.js"></script>
+
+    <script type="text/javascript" src="lib/jquery.min.js"></script>
+    <script type="text/javascript" src="demo.js"></script>
+</body>
+</html>
