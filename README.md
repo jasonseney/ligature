@@ -61,12 +61,7 @@ If you're including Ligature in another project, you can now update the version 
 
     var richTextInstance = new Ligature.RichTextEditor(editableElement, config);
 
-*See the [demo.js](https://github.tumblr.net/pages/Tumblr/ligature/doc/demo.js.html) file for more examples of use.*
-
-## ES6 Syntax Warning
-
-Babel does not transpile this repo during Jenkins asset builds for the `tumblr` repo. So although ES6 syntax (`let`, `const`, `=>`, etc.) will build
-and run fine during development it *will* throw an error when compiling assets for deployment on production. Stick to ES5 syntax to avoid such issues.
+*See the [demo.js](demo.js) file for more examples of use.*
 
 ## Styling
 
@@ -80,5 +75,3 @@ These are not required, and are used as a base line / icon font for the interfac
 ## Documentation
 
 Docker is used to auto generate the documentation of all code comments.
-
-You can browsed the HTML docs on Github Pages here: [Ligature Documentation](https://github.tumblr.net/pages/Tumblr/ligature/doc/README.md.html).
